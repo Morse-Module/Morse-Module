@@ -7,7 +7,7 @@
 1. 🤝 You give url for soc-module (look down below for what a soc-module is)
 2. 📦 Stores current version of config is safe place so you can revert back if stuff breaks
 3. 🚀 Install and use config defined in soc-module
-4. 😄 Your all setup! No any extra install setups 🙌
+4. 😄 You're all set up! No extra install setups 🙌
 
 ## 📦 soc-module
 
@@ -25,4 +25,4 @@ extensions:
 ## 😄 Contributors
 
 - Matthew Gleich (@Matt-Gleich)
-- Caleb Hanger (@Cal-Hagner)
+- Caleb Hagner (@Cal-Hagner)

@@ -8,6 +8,7 @@ void initParser(List<String> args) => CommandRunner(
   ..addCommand(InstallCommand())
   ..run(args);
 
+/// Dump command
 class DumpCommand extends Command {
   @override
   final name = 'dump';
@@ -30,6 +31,7 @@ class DumpCommand extends Command {
   void run() => print(argResults['editor']);
 }
 
+/// Installation command
 class InstallCommand extends Command {
   @override
   final name = 'install';

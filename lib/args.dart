@@ -1,5 +1,7 @@
 // 📦 Package imports:
 import 'package:args/command_runner.dart';
+import 'package:soc/applications.dart';
+import 'package:soc/install.dart';
 
 /// Initialize the arg parser
 void initParser(List<String> args) => CommandRunner(
@@ -46,6 +48,10 @@ class InstallCommand extends Command {
     argParser.addOption(
       'url',
       help: 'URL to the soc module you want to install',
+    );
+    argParser.addOption(
+      'application',
+      help: 'The application to install the dotfile to',
       allowed: [
         'vscode'
       ],
@@ -53,20 +59,20 @@ class InstallCommand extends Command {
         'vscode': 'Visual Studio Code',
       },
     );
-    argParser.addOption(
-      'application',
-      help: 'The application to install the dotfile to',
-    );
     argParser.addFlag(
       'noStash',
       help: 'If your current config should be stashed',
       negatable: false,
+      defaultsTo: false,
     );
   }
 
   @override
   void run() {
-    print(argResults['url']);
-    print(argResults['noStash']);
+    if (applications.containsKey(argResults['application'])) {
+      installSocModule(argResults['url'], applications[argResults['application']], noStash: argResults['noStash']);
+    } else {
+      print('The requested application is not supported.');
+    }
   }
 }

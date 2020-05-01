@@ -21,3 +21,8 @@ location: '~/Library/Application Support/Code/User/settings.json'
 extensions:
   - 
 ```
+
+## 😄 Contributors
+
+- Matthew Gleich (@Matt-Gleich)
+- Caleb Hanger (@Cal-Hagner)

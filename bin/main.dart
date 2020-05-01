@@ -1,5 +1,6 @@
-import 'package:DevHacks/DevHacks.dart' as DevHacks;
+// 🌎 Project imports:
+import 'package:soc/soc.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${DevHacks.calculate()}!');
+  print('Hello world: ${calculate()}!');
 }

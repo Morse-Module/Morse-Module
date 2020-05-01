@@ -1,6 +1,6 @@
 // 🌎 Project imports:
-import 'package:soc/soc.dart';
+import 'package:soc/args.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${calculate()}!');
+  initParser(arguments);
 }

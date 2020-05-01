@@ -19,16 +19,19 @@ class DumpCommand extends Command {
 
   DumpCommand() {
     argParser.addOption(
-      'editor',
-      help: 'The editor to make a module for',
+      'application',
+      help: 'The application to make a module for',
+      allowed: [
+        'vscode',
+      ],
       allowedHelp: {
-        'vscode': 'Visual Studio Code Editor',
+        'vscode': 'Visual Studio Code',
       },
     );
   }
 
   @override
-  void run() => print(argResults['editor']);
+  void run() => print(argResults['application']);
 }
 
 /// Installation command
@@ -43,6 +46,16 @@ class InstallCommand extends Command {
     argParser.addOption(
       'url',
       help: 'URL to the soc module you want to install',
+      allowed: [
+        'vscode'
+      ],
+      allowedHelp: {
+        'vscode': 'Visual Studio Code',
+      },
+    );
+    argParser.addOption(
+      'application',
+      help: 'The application to install the dotfile to',
     );
     argParser.addFlag(
       'noStash',

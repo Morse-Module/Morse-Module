@@ -1,4 +1,4 @@
 // 🌎 Project imports:
-import 'package:soc/editors.dart';
+import 'package:soc/applications.dart';
 
-void createModule(Editors editor) {}
+void createModule(Application application) {}

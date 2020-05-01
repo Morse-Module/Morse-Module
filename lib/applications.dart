@@ -1,0 +1,1 @@
+enum Application { vscode }

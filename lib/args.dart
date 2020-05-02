@@ -1,7 +1,9 @@
 // 📦 Package imports:
 import 'package:args/command_runner.dart';
-import 'package:soc/applications.dart';
-import 'package:soc/install.dart';
+import 'package:http/http.dart' as http;
+import 'package:soc/applications/application.dart';
+import 'package:soc/applications/applicationFactory.dart';
+import 'package:yaml/yaml.dart';
 
 /// Initialize the arg parser
 void initParser(List<String> args) => CommandRunner(
@@ -68,11 +70,14 @@ class InstallCommand extends Command {
   }
 
   @override
-  void run() {
-    if (applications.containsKey(argResults['application'])) {
-      installSocModule(argResults['url'], applications[argResults['application']], noStash: argResults['noStash']);
-    } else {
-      print('The requested application is not supported.');
-    }
+  void run() async {
+    final socModule = await http.read(argResults['url']);
+    final socModuleYaml = loadYaml(socModule);
+    final socFileUrl = 'https://raw.githubusercontent.com/${socModuleYaml['user']}/${socModuleYaml['repository']}/${socModuleYaml['filename']}';
+    final app = ApplicationFactory().getApplication(socModuleYaml['application']);
+    await app.stash();
+    final socFile = await http.read(socFileUrl);
+    await app.updateSettings(socFile);
+    if (app.configFilePaths[ConfigType.extensions] != null) socModuleYaml['extensions'].forEach((extensionName) => app.installExtension(extensionName));
   }
 }

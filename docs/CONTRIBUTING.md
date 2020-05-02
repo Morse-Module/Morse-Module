@@ -4,7 +4,7 @@
 
 ## Adding Application Support
 
-If you would like to see support for an application added to SOC, you can either:
+If you would like to see support for an application added to Morse, you can either:
 
 - Open an issue using the 'Application Request' issue template.
 - Add application support yourself and open a pull request.
@@ -14,7 +14,7 @@ If you are adding an application via PR, please make sure the following is true:
 - The application uses a dot-file
 - The application class extends `Application`
 - The application class contains the necessary configuration types (settings, extensions) and paths for supported platforms
-- You have tested install of a soc-module using the added application
+- You have tested install of a dash-file using the added application
 
 ## Style Guide
 

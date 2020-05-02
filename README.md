@@ -1,17 +1,17 @@
-# Share-Open-Configs
+# Morse
 
-🚀 Platform to quickly share application config files and try them out risk free. Similar to homebrew cask but for configs
+🚀 Platform to quickly share application dot-files and try them out risk free. Similar to homebrew cask but for dot-files.
 
 ## ❓ How it works
 
-1. 🤝 You give the url of a soc-module (see below)
+1. 🤝 You give the url of a dash-file (see below)
 2. 📦 Stores current version of config is safe place so you can revert back if stuff breaks
-3. 🚀 Install config defined in soc-module
+3. 🚀 Install config defined in dash-file
 4. 😄 You're all set up! No extra install setups 🙌
 
-## 📦 soc-module
+## 📦 dash-file
 
-A soc-module is a file in a yaml format that outlines a config you can install. Below is an example of a soc-module:
+A dash-file is a file in a yaml format that outlines a config you can install. Below is an example of a dash-file:
 
 ```yml
 application: "vscode"
@@ -23,7 +23,7 @@ extensions:
   ...
 ```
 
-For more information regarding soc-modules, please reference [the usage documentation](docs/USAGE.md).
+For more information regarding dash-files, please reference [the usage documentation](docs/USAGE.md).
 
 ## Contributing
 

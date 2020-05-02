@@ -1,4 +1,4 @@
-# Morse
+# Morse-Module
 
 🚀 Platform to quickly share application dot-files and try them out risk free. Similar to homebrew cask but for dot-files.
 

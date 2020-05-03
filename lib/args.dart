@@ -1,11 +1,11 @@
 // 📦 Package imports:
 import 'package:args/command_runner.dart';
 import 'package:http/http.dart' as http;
-import 'package:morse_module/models/application.dart';
-import 'package:morse_module/models/applicationFactory.dart';
 import 'package:yaml/yaml.dart';
 
 // 🌎 Project imports:
+import 'package:morse_module/models/application.dart';
+import 'package:morse_module/models/applicationFactory.dart';
 import 'package:morse_module/statuses.dart';
 
 /// Initialize the arg parser

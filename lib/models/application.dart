@@ -41,7 +41,7 @@ abstract class Application {
 
   /// Stash current config
   void stash() async {
-    final stashDir = Directory('${homePath()}/.soc/stash');
+    final stashDir = Directory('${homePath()}/.morse-mod/stash');
     final stashDirPath = stashDir.path;
     if (!stashDir.existsSync()) {
       stashDir.createSync(recursive: true);
@@ -91,7 +91,7 @@ abstract class Application {
 
   /// Revert to a previous config
   void revert({String stashNumber}) async {
-    final stashDir = Directory('$homePath/.morseModule/stash/$name');
+    final stashDir = Directory('$homePath/.morse-mod/stash/$name');
     final revertDir = stashNumber == null
         ? Directory('$stashDir/Version-$stashNumber')
         : Directory(stashDir.listSync().last.path);
@@ -117,7 +117,7 @@ abstract class Application {
   }
 
   void listStashes() {
-    final stashDir = Directory('$homePath/.morse-module/stash/$name');
+    final stashDir = Directory('$homePath/.morse-mod/stash/$name');
     if (stashDir.existsSync() && stashDir.listSync().isNotEmpty) {
       stdout.writeln('Version\tTime Created');
       stashDir.listSync().forEach((entity) {

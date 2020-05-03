@@ -13,6 +13,10 @@ class VsCode extends Application {
 
   @override
   final String listExtensions = 'code --list-extensions';
+  @override
+  final String installExtension = 'code --install-extension';
+  @override
+  final String uninstallExtension = 'code --uninstall-extension';
 
   @override
   final Map<OperatingSystem, String> configFilePath = {

@@ -116,6 +116,7 @@ abstract class Application {
     stashedConfigFile.copySync(currentConfigFilePath);
   }
 
+  /// List all the application's stashes' version and creation time
   void listStashes() {
     final stashDir = Directory('${homePath()}/.morse-mod/stash/$name');
     if (stashDir.existsSync() && stashDir.listSync().isNotEmpty) {

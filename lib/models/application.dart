@@ -84,7 +84,6 @@ abstract class Application {
     dataFile.writeAsStringSync(jsonEncode(data));
 
     // Copy current config file
-    print(configFilePath);
     final currentConfigFile = File(configFilePath[currentOS()]);
     currentConfigFile.copySync(
         '${currentStashFolder.path}/${currentConfigFile.path.split('/').last}');

@@ -1,6 +1,8 @@
 // 🌎 Project imports:
-import 'package:soc/args.dart';
+import 'package:morse_module/models/applicationFactory.dart';
 
 void main(List<String> arguments) {
-  initParser(arguments);
+  final application = ApplicationFactory.getApplication('vscode');
+  application.checkDependents();
+  application.stash();
 }

@@ -49,7 +49,7 @@ abstract class Application {
 
   /// Stash current config
   void stash() async {
-    final stashDir = Directory('$homePath/.morse-module/stash');
+    final stashDir = Directory('$homePath/.morse-module/stash/$name');
     if (!stashDir.existsSync()) {
       stashDir.createSync(recursive: true);
     }
@@ -98,7 +98,7 @@ abstract class Application {
 
   /// Revert to a previous config
   void revert({String stashNumber}) async {
-    final stashDir = Directory('$homePath/.morseModule/stash');
+    final stashDir = Directory('$homePath/.morseModule/stash/$name');
     final revertDir = stashNumber == null
         ? Directory('$stashDir/Version-$stashNumber')
         : Directory(stashDir.listSync().last.path);

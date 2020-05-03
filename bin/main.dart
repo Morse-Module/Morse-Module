@@ -1,4 +1,4 @@
 // 🌎 Project imports:
-import 'package:soc/commands.dart';
+import 'package:morse_module/commands.dart';
 
 void main(List<String> arguments) {}

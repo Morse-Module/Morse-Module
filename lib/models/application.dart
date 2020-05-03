@@ -4,11 +4,11 @@ import 'dart:io';
 
 // 📦 Package imports:
 import 'package:process_run/which.dart';
-import 'package:soc/commands.dart';
+import 'package:morse_module/commands.dart';
 
 // 🌎 Project imports:
-import 'package:soc/platforms.dart';
-import 'package:soc/statuses.dart';
+import 'package:morse_module/platforms.dart';
+import 'package:morse_module/statuses.dart';
 
 abstract class Application {
   // Application name

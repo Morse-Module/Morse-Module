@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 
 // 🌎 Project imports:
-import 'package:soc/commands.dart';
+import 'package:morse_module/commands.dart';
 
 void main() {
   test(

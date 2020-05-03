@@ -2,7 +2,7 @@
 import 'dart:io';
 
 // 🌎 Project imports:
-import 'package:soc/statuses.dart';
+import 'package:morse_module/statuses.dart';
 
 enum OperatingSystem { macos, linux, windows }
 

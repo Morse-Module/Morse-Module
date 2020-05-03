@@ -1,5 +1,5 @@
 // 🌎 Project imports:
-import 'package:soc/applications/vscode.dart';
+import 'package:morse_module/applications/vscode.dart';
 
 class ApplicationFactory {
   static void getApplication(String applicationName) {

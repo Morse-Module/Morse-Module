@@ -1,4 +1,4 @@
-# Share-Open-Configs
+# Morse-Module
 
 ![Dart CI](https://github.com/Morse-Module/Morse-Module/workflows/Dart%20CI/badge.svg)
 
@@ -6,25 +6,32 @@
 
 ## ❓ How it works
 
-1. 🤝 You give url for soc-module (look down below for what a soc-module is)
+1. 🤝 You give the url of a dash-file (see below)
 2. 📦 Stores current version of config is safe place so you can revert back if stuff breaks
-3. 🚀 Install and use config defined in soc-module
+3. 🚀 Install config defined in dash-file
 4. 😄 You're all set up! No extra install setups 🙌
 
-## 📦 soc-module
+## 📦 dash-file
 
-A soc-module is a file in a yaml format that outlines a config you can install. Below is an example of a soc-module:
+A dash-file is a file in a yaml format that outlines a config you can install. Below is an example of a dash-file:
 
 ```yml
-application: 'vscode'
-owner: 'Matthew Gleich (Matt-Gleich)'
-file_url: 'https://github.com/Matt-Gleich/Dot-Files/VSCode/settings.json'
-location: '~/Library/Application Support/Code/User/settings.json'
+application: "vscode"
+creator: "Matt-Gleich"
+repository: "Dot-Files"
+filepath: "VSCode/settings.json"
 extensions:
-  - 
+  - bierner.markdown-emoji
+  ...
 ```
+
+For more information regarding dash-files, please reference [the usage documentation](docs/USAGE.md).
+
+## Contributing
+
+Contributions of application support, documentation upgrades, typo fixes (we all make them), or SOC features are all welcome. Please see [the contributing guidlines](docs/CONTRIBUTING.md) and [the code of conduct](docs/CODE_OF_CONDUCT.md) for more information.
 
 ## 😄 Contributors
 
-- Matthew Gleich (@Matt-Gleich)
-- Caleb Hagner (@Cal-Hagner)
+- Matthew Gleich ([@Matt-Gleich](https://github.com/Matt-Gleich))
+- Caleb Hagner ([@Cal-Hagner](https://github.com/Cal-Hagner))

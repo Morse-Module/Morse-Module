@@ -4,11 +4,13 @@ import 'dart:io';
 
 // 📦 Package imports:
 import 'package:process_run/which.dart';
+import 'package:http/http.dart' as http;
 
 // 🌎 Project imports:
 import 'package:morse_module/commands.dart';
 import 'package:morse_module/platforms.dart';
 import 'package:morse_module/statuses.dart';
+import 'package:yaml/yaml.dart';
 
 abstract class Application {
   // Application name
@@ -36,6 +38,52 @@ abstract class Application {
           "Looks like you don't have the command $dependent installed\n See ${commandDependents[dependent]} for more information",
         );
       }
+    }
+  }
+
+  /// Create a dashfile for the application
+  void dump({String destination, String url}) async {
+    final dashFile = destination != null
+        ? File('$destination/dashfile.yaml')
+        : File('./dashfile.yaml');
+    if (!dashFile.existsSync()) {
+      dashFile.createSync(recursive: true);
+    }
+    var creator = '';
+    var repository = '';
+    var filepath = '';
+
+    if (url != null) {
+      final splitUrl = url.replaceFirst('https://', '').split('/');
+      creator = splitUrl[1];
+      repository = splitUrl[2];
+      for (var i = 5; i < splitUrl.length; i++) {
+        if (i > 5) {
+          filepath += '/';
+        }
+        filepath += '${splitUrl[i].replaceAll('%20', ' ')}';
+      }
+    } else {
+      stdout.writeln('What is your GitHub username?');
+      creator = await stdin.readLineSync();
+      stdout.writeln(
+          'What is the name of the GitHub repository you are storing the dotfile in?');
+      repository = await stdin.readLineSync();
+      stdout.writeln(
+          'What is the filepath of the dotfile, relative to the repository root?');
+      filepath = await stdin.readLineSync();
+    }
+    dashFile.writeAsStringSync('application: "$name"\n');
+    dashFile.writeAsStringSync('creator: "$creator"\n', mode: FileMode.append);
+    dashFile.writeAsStringSync('repository: "$repository"\n',
+        mode: FileMode.append);
+    dashFile.writeAsStringSync('filepath: "$filepath"\n',
+        mode: FileMode.append);
+    dashFile.writeAsStringSync('extensions:\n', mode: FileMode.append);
+    if (listExtensions != '') {
+      final extensions = await convertAndRunCommand(listExtensions);
+      extensions.split('\n').forEach((extensionName) => dashFile
+          .writeAsStringSync('  - $extensionName\n', mode: FileMode.append));
     }
   }
 

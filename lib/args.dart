@@ -23,11 +23,12 @@ class DumpCommand extends Command {
 
   @override
   final description =
-      'Create a dash file in the current directory for the given editor';
+      'Create a dash file in the current directory for the given application using details about the dotfile on GitHub and the local application\'s extensions, if any.';
 
   DumpCommand() {
     argParser.addOption(
       'application',
+      abbr: 'a',
       help: 'The application to make a dashfile for',
       allowed: [
         'vscode',
@@ -36,10 +37,24 @@ class DumpCommand extends Command {
         'vscode': 'Visual Studio Code',
       },
     );
+    argParser.addOption(
+      'destination',
+      abbr: 'd',
+      help:
+          'The destination directory to add the created dashfile to. If no destination is specified, this command dumps to the current directory.',
+    );
+    argParser.addOption(
+      'url',
+      help:
+          'the url of the dotfile that the dashfile is being created for. If --url is null, the program proceeds to ,a',
+    );
   }
 
   @override
-  void run() => print(argResults['application']);
+  void run() {
+    final app = ApplicationFactory.getApplication(argResults['application']);
+    app.dump(destination: argResults['destination'], url: argResults['url']);
+  }
 }
 
 /// Installation command
@@ -68,7 +83,7 @@ class InstallCommand extends Command {
     final fixedURL = argResults['url']
         .toString()
         .replaceFirst('github.com', 'raw.githubusercontent.com')
-        .replaceAll('/blob', '');
+        .replaceAll('/blob/', '/');
     final contents = await http.get(fixedURL);
     if (contents.statusCode == 200) {
       final yamlContents = loadYaml(contents.body);

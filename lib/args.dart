@@ -10,7 +10,7 @@ import 'package:morse_module/statuses.dart';
 
 /// Initialize the arg parser
 void initParser(List<String> args) => CommandRunner(
-    'soc', "Quickly and safely try out other people's editor setups")
+    'morse-mod', "Quickly and safely try out other people's editor setups")
   ..addCommand(DumpCommand())
   ..addCommand(InstallCommand())
   ..addCommand(RevertCommand())

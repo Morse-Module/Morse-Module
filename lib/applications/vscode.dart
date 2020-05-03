@@ -6,9 +6,11 @@ import 'package:process_run/process_run.dart';
 // 🌎 Project imports:
 import 'package:soc/applications/application.dart';
 
-class VsCode extends Application {
+class VsCode with Application {
   @override
   final name = 'vscode';
+  @override
+  final settingsFileName = 'settings.json';
   @override
   final configFilePaths = <ConfigType, Map<String, String>>{
     ConfigType.settings: {
@@ -28,4 +30,8 @@ class VsCode extends Application {
   @override
   void installExtension(String extensionName) async =>
       await run('code', ['--install-extension ${extensionName}']);
+
+  @override
+  void uninstallExtension(String extensionName) async =>
+      await run('code', ['--uninstall-extensions ${extensionName}']);
 }

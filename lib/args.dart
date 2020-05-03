@@ -9,9 +9,10 @@ import 'package:soc/applications/applicationFactory.dart';
 
 /// Initialize the arg parser
 void initParser(List<String> args) => CommandRunner(
-    'soc', "Quickly and safely try out other people's editor setups")
+    'morse-mod', "Quickly and safely try out other people's editor setups")
   ..addCommand(DumpCommand())
   ..addCommand(InstallCommand())
+  ..addCommand(RevertCommand())
   ..run(args);
 
 /// Dump command
@@ -76,5 +77,30 @@ class InstallCommand extends Command {
       dashFileYaml['extensions']
           .forEach((extensionName) => app.installExtension(extensionName));
     }
+  }
+}
+
+/// Reversion command
+class RevertCommand extends Command {
+  @override
+  final name = 'revert';
+
+  @override
+  final description = 'Revert to a previous configuration';
+
+  RevertCommand() {
+    argParser.addOption('application',
+        help: 'The application you are reverting to a previous configuration.');
+    argParser.addOption(
+      'stashDate',
+      help:
+          'The date of the stash you want to revert to, represented as a string in M-D-YYYY format. If you are unsure which stashes are available, run "ls \$HOME/.soc/stashes/APPLICATION", where application is the application you are reverting to a stash for.',
+    );
+  }
+
+  @override
+  void run() async {
+    final app = ApplicationFactory().getApplication(argResults['application']);
+    app.revert(stashDate: argResults['stashDate']);
   }
 }

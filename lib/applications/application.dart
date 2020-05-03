@@ -3,12 +3,15 @@ import 'dart:io';
 
 enum ConfigType { settings, extensions }
 
-abstract class Application {
-  final name = '';
+mixin Application {
+  var name;
+  var settingsFileName;
   final configFilePaths = <ConfigType, Map<String, String>>{
     ConfigType.settings: null,
     ConfigType.extensions: null,
   };
+
+  final stashes = <String>[];
 
   void stash() async {
     final currentTime = DateTime.now();
@@ -32,9 +35,36 @@ abstract class Application {
           extensionsDestFile.writeAsStringSync('${extensionName}\n',
               mode: FileMode.append),
         });
+
+    stashes.add('${currentTime.month}-${currentTime.day}-${currentTime.year}');
+  }
+
+  void revert({String stashDate}) async {
+    final restoreStash = stashDate ?? stashes.last;
+    final stashedExtensions = File(
+            '${Platform.environment['HOME']}/.soc/stash/${this.name}/${restoreStash}/extensions.txt')
+        .readAsLinesSync();
+    final stashedSettings =
+        '${Platform.environment['HOME']}/.soc/stash/${this.name}/${restoreStash}/${this.settingsFileName}';
+    final currentExtensions = <String>[];
+    Directory(configFilePaths[ConfigType.extensions][Platform.operatingSystem])
+        .listSync()
+        .forEach((entity) => currentExtensions.add(entity.path));
+    stashedExtensions.forEach((extensionName) => {
+          if (!currentExtensions.contains(extensionName))
+            {this.installExtension(extensionName)}
+        });
+    currentExtensions.forEach((extensionName) => {
+          if (!stashedExtensions.contains(extensionName))
+            {this.uninstallExtension(extensionName)}
+        });
+    File(stashedSettings).copySync(
+        configFilePaths[ConfigType.settings][Platform.operatingSystem]);
   }
 
   void installExtension(String extensionName) async => {};
+
+  void uninstallExtension(String extensionName) async => {};
 
   void updateSettings(String settingsFileContents) async {
     final file =

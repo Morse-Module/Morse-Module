@@ -4,9 +4,9 @@ import 'dart:io';
 
 // 📦 Package imports:
 import 'package:process_run/which.dart';
-import 'package:soc/commands.dart';
 
 // 🌎 Project imports:
+import 'package:soc/commands.dart';
 import 'package:soc/platforms.dart';
 import 'package:soc/statuses.dart';
 
@@ -23,14 +23,6 @@ abstract class Application {
   // Operating system: File path
   final Map<OperatingSystem, String> filePath = {};
 
-  /// Get the path to the home folder for the current os
-  static String get homePath {
-    if (Platform.isMacOS || Platform.isLinux) {
-      return Directory.current.path.split('/').getRange(0, 3).join('/');
-    }
-    // TODO: Implement windows homepath
-  }
-
   /// Check to make sure dependents are installed
   /// If not the user is presented with a helpful url
   void checkDependents(Map<String, String> dependents) {
@@ -45,7 +37,7 @@ abstract class Application {
 
   /// Stash current config
   void stash() async {
-    final stashDir = Directory('$homePath/.soc/stash');
+    final stashDir = Directory('${homePath()}/.soc/stash');
     if (!stashDir.existsSync()) {
       stashDir.createSync(recursive: true);
     }

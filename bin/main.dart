@@ -1,4 +1,6 @@
 // 🌎 Project imports:
-import 'package:soc/commands.dart';
+import 'package:soc/platforms.dart';
 
-void main(List<String> arguments) {}
+void main(List<String> arguments) {
+  print(homePath());
+}

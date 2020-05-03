@@ -14,3 +14,11 @@ OperatingSystem currentOS() {
   }
   error('Platform ${Platform.operatingSystem} not supported');
 }
+
+String homePath() {
+  final envVars = Platform.environment;
+  if (Platform.isLinux || Platform.isMacOS) {
+    return envVars['HOME'];
+  }
+  return envVars['HOMEPATH'];
+}

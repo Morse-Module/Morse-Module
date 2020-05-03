@@ -1,4 +1,7 @@
+// 📦 Package imports:
 import 'package:process_run/process_run.dart';
+
+// 🌎 Project imports:
 import 'package:soc/applications/application.dart';
 
 class VsCode extends Application {

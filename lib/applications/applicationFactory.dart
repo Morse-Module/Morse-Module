@@ -1,7 +1,9 @@
+// 🎯 Dart imports:
+import 'dart:io';
+
+// 🌎 Project imports:
 import 'package:soc/applications/application.dart';
 import 'package:soc/applications/vscode.dart';
-
-import 'dart:io';
 
 class ApplicationFactory {
 

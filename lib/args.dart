@@ -14,6 +14,7 @@ void initParser(List<String> args) => CommandRunner(
   ..addCommand(DumpCommand())
   ..addCommand(InstallCommand())
   ..addCommand(RevertCommand())
+  ..addCommand(ListStashesCommand())
   ..run(args);
 
 /// Dump command

@@ -12,6 +12,7 @@ Future<String> convertAndRunCommand(String command) async {
 
   final output = await Process.run(executable, arguments);
   if (output.exitCode != 0) {
+    print(output.stderr);
     error('Failed to run $executable ${arguments.join(' ')}');
   }
   return output.stdout;

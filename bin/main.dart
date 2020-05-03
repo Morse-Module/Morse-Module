@@ -1,6 +1,4 @@
 // 🌎 Project imports:
-import 'package:soc/args.dart';
+import 'package:soc/commands.dart';
 
-void main(List<String> arguments) {
-  initParser(arguments);
-}
+void main(List<String> arguments) {}

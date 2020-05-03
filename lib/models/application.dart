@@ -25,11 +25,11 @@ abstract class Application {
 
   /// Check to make sure dependents are installed
   /// If not the user is presented with a helpful url
-  void checkDependents(Map<String, String> dependents) {
-    for (final dependent in dependents.keys) {
+  void checkDependents() {
+    for (final dependent in commandDependents.keys) {
       if (!(whichSync(dependent) is String)) {
         error(
-          "Looks like you don't have the command $dependent installed\n See ${dependents[dependent]} for more information",
+          "Looks like you don't have the command $dependent installed\n See ${commandDependents[dependent]} for more information",
         );
       }
     }
@@ -38,6 +38,7 @@ abstract class Application {
   /// Stash current config
   void stash() async {
     final stashDir = Directory('${homePath()}/.soc/stash');
+    final stashDirPath = stashDir.path;
     if (!stashDir.existsSync()) {
       stashDir.createSync(recursive: true);
     }
@@ -46,19 +47,19 @@ abstract class Application {
 
     // Create/remove stash version folders
     Directory currentStashFolder;
-    if (folders.contains(Directory(stashDir.path + 'Version-100'))) {
+    if (folders.contains(Directory(stashDirPath + 'Version-100'))) {
       for (var i = 1; i <= 100; i++) {
         if (i == 1) {
-          Directory('$stashDir/Version-1').deleteSync();
+          Directory('$stashDirPath/Version-1').deleteSync();
         } else {
-          Directory('$stashDir/Version-$i')
-              .renameSync('$stashDir/Version-${i - 1}');
+          Directory('$stashDirPath/Version-$i')
+              .renameSync('$stashDirPath/Version-${i - 1}');
         }
       }
-      currentStashFolder = Directory('$stashDir/Version-100');
+      currentStashFolder = Directory('$stashDirPath/Version-100');
     } else {
       for (var i = 1; i <= 100; i++) {
-        final newStashDirectory = Directory('$stashDir/Version-$i');
+        final newStashDirectory = Directory('$stashDirPath/Version-$i');
         if (!newStashDirectory.existsSync()) {
           newStashDirectory.createSync();
           currentStashFolder = newStashDirectory;
@@ -74,12 +75,13 @@ abstract class Application {
       final extensions = await convertAndRunCommand(listExtensions);
       data['extensions'] = extensions.split('\n');
     }
-    final dataFile = File('$currentStashFolder/data.json');
+    final dataFile = File('${currentStashFolder.path}/data.json');
     dataFile.createSync();
     dataFile.writeAsStringSync(jsonEncode(data));
 
     // Copying current file
     final currentFile = File(filePath[currentOS()]);
-    currentFile.copySync('$stashDir/${currentFile.path.split('/').last}');
+    currentFile.copySync(
+        '${currentStashFolder.path}/${currentFile.path.split('/').last}');
   }
 }

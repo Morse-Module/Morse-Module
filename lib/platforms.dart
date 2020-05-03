@@ -16,9 +16,13 @@ OperatingSystem currentOS() {
 }
 
 String homePath() {
-  final envVars = Platform.environment;
   if (Platform.isLinux || Platform.isMacOS) {
-    return envVars['HOME'];
+    return getEnvVar('HOME');
   }
-  return envVars['HOMEPATH'];
+  return getEnvVar('HOMEPATH');
+}
+
+String getEnvVar(String envVar) {
+  final envVars = Platform.environment;
+  return envVars[envVar];
 }

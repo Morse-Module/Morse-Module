@@ -19,7 +19,7 @@ class DumpCommand extends Command {
 
   @override
   final description =
-      'Create a soc module in the current directory for the given editor';
+      'Create a dashfile in the current directory for the given editor';
 
   DumpCommand() {
     argParser.addOption(
@@ -44,12 +44,12 @@ class InstallCommand extends Command {
   final name = 'install';
 
   @override
-  final description = 'Install a soc module';
+  final description = 'Install a dashfile';
 
   InstallCommand() {
     argParser.addOption(
       'url',
-      help: 'URL to the soc module you want to install',
+      help: 'URL to the dashfile you want to install',
     );
     argParser.addFlag(
       'noStash',
@@ -61,17 +61,18 @@ class InstallCommand extends Command {
 
   @override
   void run() async {
-    final socModule = await http.read(argResults['url']);
-    final socModuleYaml = loadYaml(socModule);
-    final socFileUrl =
-        'https://raw.githubusercontent.com/${socModuleYaml['user']}/${socModuleYaml['repository']}/${socModuleYaml['filename']}';
+    final dashFile = await http.read(argResults['url']);
+    final dashFileYaml = loadYaml(dashFile);
+    final dotfileUrl =
+        'https://raw.githubusercontent.com/${dashFileYaml['user']}/${dashFileYaml['repository']}/${dashFileYaml['filename']}';
     final app =
-        ApplicationFactory().getApplication(socModuleYaml['application']);
+        ApplicationFactory().getApplication(dashFileYaml['application']);
     await app.stash();
-    final socFile = await http.read(socFileUrl);
+    final socFile = await http.read(dotfileUrl);
     await app.updateSettings(socFile);
-    if (app.configFilePaths[ConfigType.extensions] != null)
-      socModuleYaml['extensions']
+    if (app.configFilePaths[ConfigType.extensions] != null) {
+      dashFileYaml['extensions']
           .forEach((extensionName) => app.installExtension(extensionName));
+    }
   }
 }

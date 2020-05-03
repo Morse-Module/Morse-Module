@@ -31,7 +31,7 @@ class DumpCommand extends Command {
     argParser.addOption(
       'application',
       abbr: 'a',
-      help: 'The application to make a dashfile for',
+      help: 'The application to make a dash-file for',
       allowed: [
         'vscode',
       ],
@@ -43,12 +43,12 @@ class DumpCommand extends Command {
       'destination',
       abbr: 'd',
       help:
-          'The destination directory to add the created dashfile to. If no destination is specified, this command dumps to the current directory.',
+          'The destination directory to add the created dash-file to. If no destination is specified, this command dumps to the current directory.',
     );
     argParser.addOption(
       'url',
       help:
-          'the url of the dotfile that the dashfile is being created for. If --url is null, the program proceeds to ,a',
+          'The url of the dotfile that the dashfile is being created for. If --url is null, the program proceeds to manual input',
     );
   }
 
@@ -105,6 +105,7 @@ class RevertCommand extends Command {
   RevertCommand() {
     argParser.addOption(
       'application',
+      abbr: '-a',
       help: 'The application to revert to a previous configuration',
       allowed: [
         'vscode',
@@ -115,6 +116,7 @@ class RevertCommand extends Command {
     );
     argParser.addOption(
       'version',
+      abbr: 'v',
       help: 'The number representing the version of the stash',
       defaultsTo: '',
     );
@@ -137,7 +139,7 @@ class ListStashesCommand extends Command {
   ListStashesCommand() {
     argParser.addOption(
       'application',
-      help: 'The application to revert to a previous configuration',
+      help: 'The application to list stashes for',
       allowed: [
         'vscode',
       ],

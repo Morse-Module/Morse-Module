@@ -122,4 +122,21 @@ abstract class Application {
         File('$stashDir/${currentConfigFilePath.split('/').last}');
     stashedConfigFile.copySync(currentConfigFilePath);
   }
+
+  void listStashes() {
+    final stashDir = Directory('$homePath/.morse-module/stash/$name');
+    if (stashDir.existsSync() && stashDir.listSync().isNotEmpty) {
+      stdout.writeln('Version\tTime Created');
+      stashDir.listSync().forEach((entity) {
+        final dataFile = File('${entity.path}/data.json');
+        final timeStamp =
+            jsonDecode(dataFile.readAsStringSync())['creationTime'];
+        final versionNumber =
+            entity.path.split('/').last.replaceAll('Version-', '');
+        stdout.write('$versionNumber\t$timeStamp');
+      });
+    } else {
+      stdout.write('There are no stashes for the specified application');
+    }
+  }
 }

@@ -1,6 +1,7 @@
 // 📦 Package imports:
 import 'package:args/command_runner.dart';
 import 'package:http/http.dart' as http;
+import 'package:morse_module/models/application.dart';
 import 'package:morse_module/models/applicationFactory.dart';
 import 'package:yaml/yaml.dart';
 
@@ -106,5 +107,33 @@ class RevertCommand extends Command {
   void run() {
     final app = ApplicationFactory.getApplication(argResults['application']);
     app.revert(stashNumber: argResults['version']);
+  }
+}
+
+class ListStashesCommand extends Command {
+  @override
+  final name = 'list-stashes';
+
+  @override
+  final description = 'List current stashes for the specified application';
+
+  ListStashesCommand() {
+    argParser.addOption(
+      'application',
+      help: 'The application to revert to a previous configuration',
+      allowed: [
+        'vscode',
+      ],
+      allowedHelp: {
+        'vscode': 'Visual Studio Code',
+      },
+    );
+  }
+
+  @override
+  void run() {
+    Application app =
+        ApplicationFactory.getApplication(argResults['application']);
+    app.listStashes();
   }
 }

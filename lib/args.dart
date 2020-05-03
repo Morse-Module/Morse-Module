@@ -30,7 +30,7 @@ class DumpCommand extends Command {
   DumpCommand() {
     argParser.addOption(
       'application',
-      help: 'The application to make a dashfile for',
+      help: 'The application to make a dash-file for',
       allowed: [
         'vscode',
       ],

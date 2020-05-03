@@ -127,13 +127,23 @@ abstract class Application {
     final stashDir = Directory('${homePath()}/.morse-mod/stash/$name');
     if (stashDir.existsSync() && stashDir.listSync().isNotEmpty) {
       stdout.writeln('Version\tTime Created');
-      stashDir.listSync().forEach(
+
+      // Sorting folders
+      final sortedFolders = <Directory>[];
+      for (var i = 1; i <= 100; i++) {
+        if (Directory('${stashDir.path}/Version-$i').existsSync()) {
+          sortedFolders.add(Directory('${stashDir.path}/Version-$i'));
+        }
+      }
+
+      sortedFolders.forEach(
         (entity) {
+          final versionNumber =
+              int.parse(entity.path.split('/').last.replaceAll('Version-', ''));
+
           final dataFile = File('${entity.path}/data.json');
           final timeStamp =
               jsonDecode(dataFile.readAsStringSync())['creationTime'];
-          final versionNumber =
-              entity.path.split('/').last.replaceAll('Version-', '');
           stdout.writeln('$versionNumber\t$timeStamp');
         },
       );

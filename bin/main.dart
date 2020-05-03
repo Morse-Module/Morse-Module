@@ -1,4 +1,6 @@
 // 🌎 Project imports:
-import 'package:morse_module/commands.dart';
+import 'package:morse_module/platforms.dart';
 
-void main(List<String> arguments) {}
+void main(List<String> arguments) {
+  print(homePath());
+}

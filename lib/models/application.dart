@@ -27,14 +27,6 @@ abstract class Application {
   // Operating system: File path
   final Map<OperatingSystem, String> configFilePath = {};
 
-  /// Get the path to the home folder for the current os
-  static String get homePath {
-    if (Platform.isMacOS || Platform.isLinux) {
-      return Platform.environment['HOME'];
-    }
-    // TODO: Implement windows homepath
-  }
-
   /// Check to make sure dependents are installed
   /// If not the user is presented with a helpful url
   void checkDependents(Map<String, String> dependents) {
@@ -49,7 +41,7 @@ abstract class Application {
 
   /// Stash current config
   void stash() async {
-    final stashDir = Directory('$homePath/.morse-module/stash/$name');
+    final stashDir = Directory('${homePath()}/.soc/stash');
     if (!stashDir.existsSync()) {
       stashDir.createSync(recursive: true);
     }

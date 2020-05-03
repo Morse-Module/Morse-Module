@@ -15,5 +15,7 @@ Future<String> convertAndRunCommand(String command) async {
     print(output.stderr);
     error('Failed to run $executable ${arguments.join(' ')}');
   }
-  return output.stdout;
+  final lines = output.stdout.toString().split('\n');
+  lines.removeLast();
+  return lines.join('\n');
 }

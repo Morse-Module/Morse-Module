@@ -84,9 +84,10 @@ abstract class Application {
     dataFile.writeAsStringSync(jsonEncode(data));
 
     // Copy current config file
+    print(configFilePath);
     final currentConfigFile = File(configFilePath[currentOS()]);
-    currentConfigFile
-        .copySync('$stashDir/${currentConfigFile.path.split('/').last}');
+    currentConfigFile.copySync(
+        '${currentStashFolder.path}/${currentConfigFile.path.split('/').last}');
   }
 
   /// Revert to a previous config
@@ -112,7 +113,7 @@ abstract class Application {
     // Config file
     final currentConfigFilePath = File(configFilePath[currentOS()]).path;
     final stashedConfigFile =
-        File('$stashDir/${currentConfigFilePath.split('/').last}');
+        File('${stashDir.path}/${currentConfigFilePath.split('/').last}');
     stashedConfigFile.copySync(currentConfigFilePath);
   }
 

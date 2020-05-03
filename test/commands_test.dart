@@ -9,7 +9,7 @@ void main() {
     'Run command and check output',
     () async {
       final output = await convertAndRunCommand('echo Hello World');
-      expect(output, 'Hello World\n');
+      expect(output, 'Hello World');
     },
   );
 }

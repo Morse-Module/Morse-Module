@@ -15,7 +15,7 @@ class VsCode extends Application {
   final String listExtensions = 'code --list-extensions';
 
   @override
-  final Map<OperatingSystem, String> filePath = {
+  final Map<OperatingSystem, String> configFilePath = {
     OperatingSystem.macos:
         '${homePath()}/Library/Application Support/Code/User/settings.json',
     OperatingSystem.linux: '${homePath()}/.config/Code/User/settings.json',

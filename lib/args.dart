@@ -54,7 +54,7 @@ class InstallCommand extends Command {
     );
     argParser.addFlag(
       'noStash',
-      help: 'If your current config should be stashed',
+      help: 'If your current config should not be stashed',
       negatable: false,
       defaultsTo: false,
     );

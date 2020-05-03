@@ -9,7 +9,7 @@ If you would like to see support for an application added to Morse, you can eith
 - Open an issue using the 'Application Request' issue template.
 - Add application support yourself and open a pull request.
 
-If you are adding an application via PR, please make sure the following is true:
+If you are adding application support via PR, please make sure the following is true:
 
 - The application uses a dot-file
 - The application class extends `Application`

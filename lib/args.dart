@@ -65,12 +65,12 @@ class InstallCommand extends Command {
   final name = 'install';
 
   @override
-  final description = 'Install a dash file';
+  final description = 'Install a dash-file';
 
   InstallCommand() {
     argParser.addOption(
       'url',
-      help: 'The url for the dash file on GitHub',
+      help: 'The url for the dash-file on GitHub',
     );
     argParser.addFlag(
       'noStash',
@@ -90,7 +90,7 @@ class InstallCommand extends Command {
     if (contents.statusCode == 200) {
       final yamlContents = loadYaml(contents.body);
     } else {
-      error('Failed to download soc module from ${argResults['url']}');
+      error('Failed to download dash-file from ${argResults['url']}');
     }
   }
 }

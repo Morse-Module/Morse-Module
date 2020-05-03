@@ -1,11 +1,12 @@
 // 🌎 Project imports:
 import 'package:morse_module/applications/vscode.dart';
+import 'package:morse_module/models/application.dart';
 
 class ApplicationFactory {
-  static void getApplication(String applicationName) {
+  static Application getApplication(String applicationName) {
     switch (applicationName) {
-      case VsCode.name:
-        VsCode();
+      case 'vscode':
+        return VsCode();
     }
   }
 }

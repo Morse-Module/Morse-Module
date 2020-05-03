@@ -1,6 +1,7 @@
 // 📦 Package imports:
 import 'package:args/command_runner.dart';
 import 'package:http/http.dart' as http;
+import 'package:morse_module/models/applicationFactory.dart';
 import 'package:yaml/yaml.dart';
 
 // 🌎 Project imports:
@@ -11,6 +12,7 @@ void initParser(List<String> args) => CommandRunner(
     'soc', "Quickly and safely try out other people's editor setups")
   ..addCommand(DumpCommand())
   ..addCommand(InstallCommand())
+  ..addCommand(RevertCommand())
   ..run(args);
 
 /// Dump command
@@ -72,5 +74,37 @@ class InstallCommand extends Command {
     } else {
       error('Failed to download soc module from ${argResults['url']}');
     }
+  }
+}
+
+class RevertCommand extends Command {
+  @override
+  final name = 'revert';
+
+  @override
+  final description = 'Revert to a stashed configuration';
+
+  RevertCommand() {
+    argParser.addOption(
+      'application',
+      help: 'The application to revert to a previous configuration',
+      allowed: [
+        'vscode',
+      ],
+      allowedHelp: {
+        'vscode': 'Visual Studio Code',
+      },
+    );
+    argParser.addOption(
+      'version',
+      help: 'The number representing the version of the stash',
+      defaultsTo: '100',
+    );
+  }
+
+  @override
+  void run() {
+    final app = ApplicationFactory.getApplication(argResults['application']);
+    app.revert(stashNumber: argResults['version']);
   }
 }

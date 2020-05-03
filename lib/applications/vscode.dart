@@ -1,18 +1,12 @@
-// 📦 Package imports:
-import 'package:process_run/process_run.dart';
-
 // 🌎 Project imports:
 import 'package:morse_module/models/application.dart';
 
 class VsCode extends Application {
   @override
-  static const name = 'vscode';
+  final name = 'vscode';
 
   @override
   final Map<String, String> commandDependents = {
     'code': 'https://code.visualstudio.com/docs/setup/setup-overview'
   };
-
-  @override
-  
 }

@@ -4,28 +4,34 @@ import 'dart:io';
 enum ConfigType { settings, extensions }
 
 abstract class Application {
-  static const name = '';
+  final name = '';
   final configFilePaths = <ConfigType, Map<String, String>>{
     ConfigType.settings: null,
     ConfigType.extensions: null,
   };
 
   void stash() async {
+    final currentTime = DateTime.now();
     final stashDir = Directory(
-        './soc-stash/${name}/${DateTime.now().month}-${DateTime.now().day}-${DateTime.now().year}');
-    await stashDir
-        .exists()
-        .then((exists) => {if (!exists) stashDir.create(recursive: true)});
+        '${Platform.environment['HOME']}/.soc/stash/${this.name}/${currentTime.month}-${currentTime.day}-${currentTime.year}');
+    if (!stashDir.existsSync()) {
+      stashDir.createSync(recursive: true);
+    }
 
     final settingsFile =
-        File(configFilePaths[ConfigType.extensions][Platform.operatingSystem]);
-    final extensionsFile =
-        File(configFilePaths[ConfigType.extensions][Platform.operatingSystem]);
+        File(configFilePaths[ConfigType.settings][Platform.operatingSystem]);
+    final extensionsDir = Directory(
+        configFilePaths[ConfigType.extensions][Platform.operatingSystem]);
+    final extensionsDestFile = File('${stashDir.path}/extensions.txt');
+    var extensionName = '';
 
-    await settingsFile.copy(
-        '${stashDir.path}/${configFilePaths[ConfigType.settings][Platform.operatingSystem]}');
-    await extensionsFile.copy(
-        '${stashDir.path}/${configFilePaths[ConfigType.extensions][Platform.operatingSystem]}');
+    await settingsFile.copy('${stashDir.path}/settings.json');
+    extensionsDestFile.createSync(recursive: true);
+    extensionsDir.listSync().forEach((entity) => {
+          extensionName = entity.path.split('/').last,
+          extensionsDestFile.writeAsStringSync('${extensionName}\n',
+              mode: FileMode.append),
+        });
   }
 
   void installExtension(String extensionName) async => {};

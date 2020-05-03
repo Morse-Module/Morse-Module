@@ -41,7 +41,7 @@ abstract class Application {
 
   /// Stash current config
   void stash() async {
-    final stashDir = Directory('${homePath()}/.morse-mod/stash');
+    final stashDir = Directory('${homePath()}/.morse-mod/stash/$name');
     final stashDirPath = stashDir.path;
     if (!stashDir.existsSync()) {
       stashDir.createSync(recursive: true);

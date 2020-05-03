@@ -86,7 +86,8 @@ abstract class Application {
     // Copy current config file
     final currentConfigFile = File(configFilePath[currentOS()]);
     currentConfigFile.copySync(
-        '${currentStashFolder.path}/${currentConfigFile.path.split('/').last}');
+      '${currentStashFolder.path}/${currentConfigFile.path.split('/').last}',
+    );
   }
 
   /// Revert to a previous config
@@ -100,19 +101,24 @@ abstract class Application {
     final stashedExtensions = jsonDecode(
         File('${revertDir.path}/data.json').readAsStringSync())['extensions'];
     final currentExtensions = listedExtensions.split('\n');
-    currentExtensions.forEach((extensionName) async => {
-          if (!stashedExtensions.contains(extensionName))
-            {convertAndRunCommand('$uninstallExtension $extensionName')}
-        });
-    stashedExtensions.forEach((extensionName) async => {
-          if (!currentExtensions.contains(extensionName))
-            {convertAndRunCommand('$installExtension $extensionName')}
-        });
+    currentExtensions.forEach(
+      (extensionName) async => {
+        if (!stashedExtensions.contains(extensionName))
+          {convertAndRunCommand('$uninstallExtension $extensionName')}
+      },
+    );
+    stashedExtensions.forEach(
+      (extensionName) async => {
+        if (!currentExtensions.contains(extensionName))
+          {convertAndRunCommand('$installExtension $extensionName')}
+      },
+    );
 
     // Config file
     final currentConfigFilePath = File(configFilePath[currentOS()]).path;
-    final stashedConfigFile =
-        File('${revertDir.path}/${currentConfigFilePath.split('/').last}');
+    final stashedConfigFile = File(
+      '${revertDir.path}/${currentConfigFilePath.split('/').last}',
+    );
     stashedConfigFile.copySync(currentConfigFilePath);
   }
 
@@ -121,16 +127,18 @@ abstract class Application {
     final stashDir = Directory('${homePath()}/.morse-mod/stash/$name');
     if (stashDir.existsSync() && stashDir.listSync().isNotEmpty) {
       stdout.writeln('Version\tTime Created');
-      stashDir.listSync().forEach((entity) {
-        final dataFile = File('${entity.path}/data.json');
-        final timeStamp =
-            jsonDecode(dataFile.readAsStringSync())['creationTime'];
-        final versionNumber =
-            entity.path.split('/').last.replaceAll('Version-', '');
-        stdout.writeln('$versionNumber\t$timeStamp');
-      });
+      stashDir.listSync().forEach(
+        (entity) {
+          final dataFile = File('${entity.path}/data.json');
+          final timeStamp =
+              jsonDecode(dataFile.readAsStringSync())['creationTime'];
+          final versionNumber =
+              entity.path.split('/').last.replaceAll('Version-', '');
+          stdout.writeln('$versionNumber\t$timeStamp');
+        },
+      );
     } else {
-      stdout.writeln('There are no stashes for the specified application');
+      error('There are no stashes for the specified application');
     }
   }
 }

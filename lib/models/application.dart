@@ -92,7 +92,7 @@ abstract class Application {
   /// Revert to a previous config
   void revert({String stashNumber}) async {
     final stashDir = Directory('${homePath()}/.morse-mod/stash/$name');
-    final revertDir = stashNumber == null
+    final revertDir = stashNumber != null
         ? Directory('${stashDir.path}/Version-$stashNumber')
         : Directory(stashDir.listSync().last.path);
     // Extensions

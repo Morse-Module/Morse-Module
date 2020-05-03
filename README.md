@@ -6,14 +6,14 @@
 
 ## ❓ How it works
 
-1. 🤝 You give the url of a dash-file (see below)
-2. 📦 Stores current version of config is safe place so you can revert back if stuff breaks
-3. 🚀 Install config defined in dash-file
+1. 🤝 You give the url of a dash-file (see below for what a dash-file is)
+2. 📦 Morse-Module stores the current version of your config in a safe place so you can revert back if stuff breaks
+3. 🚀 Morse-Module installs config defined in dash-file
 4. 😄 You're all set up! No extra install setups 🙌
 
-## 📦 dash-file
+## 📦 Dash-files
 
-A dash-file is a file in a yaml format that outlines a config you can install. Below is an example of a dash-file:
+A dash-file is a file in a yaml format that outlines a config that you can install. Below is an example of a dash-file:
 
 ```yml
 application: "vscode"
@@ -27,9 +27,15 @@ extensions:
 
 For more information regarding dash-files, please reference [the usage documentation](docs/USAGE.md).
 
+## Support
+
+|                    | Linux (Debian-based) | MacOS              | Windows            |
+| ------------------ | -------------------- | ------------------ | ------------------ |
+| Visual Studio Code | :heavy_check_mark:   | :heavy_check_mark: | :heavy_check_mark: |
+
 ## Contributing
 
-Contributions of application support, documentation upgrades, typo fixes (we all make them), or SOC features are all welcome. Please see [the contributing guidlines](docs/CONTRIBUTING.md) and [the code of conduct](docs/CODE_OF_CONDUCT.md) for more information.
+Contributions of application support, documentation upgrades, typo fixes (we all make them), and general features are all welcome. Please see [the contributing guidelines](docs/CONTRIBUTING.md) and [the code of conduct](docs/CODE_OF_CONDUCT.md) for more information.
 
 ## 😄 Contributors
 

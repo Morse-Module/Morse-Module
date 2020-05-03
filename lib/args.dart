@@ -25,12 +25,12 @@ class DumpCommand extends Command {
 
   @override
   final description =
-      'Create a dash file in the current directory for the given editor';
+      'Create a dash-file in the current directory for the given editor';
 
   DumpCommand() {
     argParser.addOption(
       'application',
-      help: 'The application to make a dashfile for',
+      help: 'The application to make a dash-file for',
       allowed: [
         'vscode',
       ],
@@ -50,12 +50,12 @@ class InstallCommand extends Command {
   final name = 'install';
 
   @override
-  final description = 'Install a dash file';
+  final description = 'Install a dash-file';
 
   InstallCommand() {
     argParser.addOption(
       'url',
-      help: 'The url for the dash file on GitHub',
+      help: 'The url for the dash-file on GitHub',
     );
     argParser.addFlag(
       'noStash',
@@ -75,7 +75,7 @@ class InstallCommand extends Command {
     if (contents.statusCode == 200) {
       final yamlContents = loadYaml(contents.body);
     } else {
-      error('Failed to download soc module from ${argResults['url']}');
+      error('Failed to download dash-file from ${argResults['url']}');
     }
   }
 }
@@ -122,7 +122,7 @@ class ListStashesCommand extends Command {
   ListStashesCommand() {
     argParser.addOption(
       'application',
-      help: 'The application to revert to a previous configuration',
+      help: 'The application to list stashes for',
       allowed: [
         'vscode',
       ],

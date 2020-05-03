@@ -1,4 +1,5 @@
 // 📦 Package imports:
+import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
@@ -10,10 +11,11 @@ import 'package:morse_module/statuses.dart';
 
 /// Initialize the arg parser
 void initParser(List<String> args) => CommandRunner(
-    'soc', "Quickly and safely try out other people's editor setups")
+    'morse-mod', "Quickly and safely try out other people's editor setups")
   ..addCommand(DumpCommand())
   ..addCommand(InstallCommand())
   ..addCommand(RevertCommand())
+  ..addCommand(ListStashesCommand())
   ..run(args);
 
 /// Dump command
@@ -99,7 +101,7 @@ class RevertCommand extends Command {
     argParser.addOption(
       'version',
       help: 'The number representing the version of the stash',
-      defaultsTo: '100',
+      defaultsTo: '',
     );
   }
 
@@ -127,13 +129,13 @@ class ListStashesCommand extends Command {
       allowedHelp: {
         'vscode': 'Visual Studio Code',
       },
+      defaultsTo: '',
     );
   }
 
   @override
   void run() {
-    Application app =
-        ApplicationFactory.getApplication(argResults['application']);
+    final app = ApplicationFactory.getApplication(argResults['application']);
     app.listStashes();
   }
 }

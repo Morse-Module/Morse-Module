@@ -10,9 +10,9 @@ Future<String> convertAndRunCommand(String command) async {
   final executable = parts.first;
   final arguments = <String>[...parts.getRange(1, parts.length)];
 
-  final output = await Process.run(executable, arguments);
+  final output = await Process.run(executable, arguments, runInShell: (Platform.isWindows ? true : false));
   if (output.exitCode != 0) {
-    print(output.stderr);
+    stdout.writeln(output.stderr);
     error('Failed to run $executable ${arguments.join(' ')}');
   }
   final lines = output.stdout.toString().split('\n');

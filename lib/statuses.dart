@@ -8,21 +8,22 @@ import 'package:console/console.dart';
 void error(String message, {int indentation = 0}) {
   final pen = TextPen();
   pen.red();
-  pen('${_generateIndentation(indentation)}❌ $message');
+  pen('${_generateIndentation(indentation)}${Platform.isWindows ? '' : '❌'} $message');
   pen();
   exit(64); // Exit code for incorrect usage
 }
 
 /// Output for a step in the program
 void step(String message, String emoji, {int indentation = 0}) {
-  print('${_generateIndentation(indentation)}$emoji $message');
+  print(
+      '${_generateIndentation(indentation)}${Platform.isWindows ? '' : emoji} $message');
 }
 
 /// Output for a successful step
 void success(String message, {int indentation = 0}) {
   final pen = TextPen();
   pen.green();
-  pen('${_generateIndentation(indentation)}✅ $message');
+  pen('${_generateIndentation(indentation)}${Platform.isWindows ? '' : '✅'} $message');
   pen();
 }
 

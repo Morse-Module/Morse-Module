@@ -13,6 +13,7 @@ import 'package:morse_module/platforms.dart';
 import 'package:morse_module/statuses.dart';
 
 abstract class Application {
+  final _ = Platform.pathSeparator;
   // Application name
   final name = '';
 
@@ -89,7 +90,7 @@ abstract class Application {
 
   /// Stash current config
   void stash() async {
-    final stashDir = Directory('${homePath()}/.morse-mod/stash/$name');
+    final stashDir = Directory('${homePath()}${_}.morse-mod${_}stash${_}$name');
     final stashDirPath = stashDir.path;
     if (!stashDir.existsSync()) {
       stashDir.createSync(recursive: true);
@@ -99,19 +100,19 @@ abstract class Application {
 
     // Create/remove stash version folders
     Directory currentStashFolder;
-    if (Directory('$stashDirPath/Version-100').existsSync()) {
-      currentStashFolder = Directory('$stashDirPath/Version-100');
+    if (Directory('$stashDirPath${_}Version-100').existsSync()) {
+      currentStashFolder = Directory('$stashDirPath${_}Version-100');
       for (var i = 1; i <= 100; i++) {
         if (i == 1) {
-          Directory('$stashDirPath/Version-1').deleteSync(recursive: true);
+          Directory('$stashDirPath${_}Version-1').deleteSync(recursive: true);
         } else {
-          Directory('$stashDirPath/Version-$i')
-              .renameSync('$stashDirPath/Version-${i - 1}');
+          Directory('$stashDirPath${_}Version-$i')
+              .renameSync('$stashDirPath${_}Version-${i - 1}');
         }
       }
     } else {
       for (var i = 1; i <= 100; i++) {
-        final newStashDirectory = Directory('$stashDirPath/Version-$i');
+        final newStashDirectory = Directory('$stashDirPath${_}Version-$i');
         if (!newStashDirectory.existsSync()) {
           newStashDirectory.createSync();
           currentStashFolder = newStashDirectory;
@@ -127,27 +128,28 @@ abstract class Application {
       final extensions = await convertAndRunCommand(listExtensions);
       data['extensions'] = extensions.split('\n');
     }
-    final dataFile = File('${currentStashFolder.path}/data.json');
+    final dataFile = File('${currentStashFolder.path}${_}data.json');
     dataFile.createSync();
     dataFile.writeAsStringSync(jsonEncode(data));
 
     // Copy current config file
     final currentConfigFile = File(configFilePath[currentOS()]);
+    final currentConfigFilePath = ((currentConfigFile.path).split(_)).last;
     currentConfigFile.copySync(
-      '${currentStashFolder.path}/${currentConfigFile.path.split('/').last}',
+      '${currentStashFolder.path}${_}${currentConfigFilePath}',
     );
   }
 
   /// Revert to a previous config
   void revert({String stashNumber}) async {
-    final stashDir = Directory('${homePath()}/.morse-mod/stash/$name');
+    final stashDir = Directory('${homePath()}${_}.morse-mod${_}stash${_}$name');
     final revertDir = stashNumber != ''
-        ? Directory('${stashDir.path}/Version-$stashNumber')
+        ? Directory('${stashDir.path}${_}Version-$stashNumber')
         : Directory(stashDir.listSync().last.path);
     // Extensions
     final listedExtensions = await convertAndRunCommand(listExtensions);
     final stashedExtensions = jsonDecode(
-        File('${revertDir.path}/data.json').readAsStringSync())['extensions'];
+        File('${revertDir.path}${_}data.json').readAsStringSync())['extensions'];
     final currentExtensions = listedExtensions.split('\n');
     currentExtensions.forEach(
       (extensionName) async => {
@@ -164,32 +166,33 @@ abstract class Application {
 
     // Config file
     final currentConfigFilePath = File(configFilePath[currentOS()]).path;
+    final currentConfigFileName = currentConfigFilePath.split(Platform.pathSeparator).last;
     final stashedConfigFile = File(
-      '${revertDir.path}/${currentConfigFilePath.split('/').last}',
+      '${revertDir.path}${_}${currentConfigFileName}',
     );
     stashedConfigFile.copySync(currentConfigFilePath);
   }
 
   /// List all the application's stashes' version and creation time
   void listStashes() {
-    final stashDir = Directory('${homePath()}/.morse-mod/stash/$name');
+    final stashDir = Directory('${homePath()}${_}.morse-mod${_}stash${_}$name');
     if (stashDir.existsSync() && stashDir.listSync().isNotEmpty) {
       stdout.writeln('Version\tTime Created');
 
       // Sorting folders
       final sortedFolders = <Directory>[];
       for (var i = 1; i <= 100; i++) {
-        if (Directory('${stashDir.path}/Version-$i').existsSync()) {
-          sortedFolders.add(Directory('${stashDir.path}/Version-$i'));
+        if (Directory('${stashDir.path}${_}Version-$i').existsSync()) {
+          sortedFolders.add(Directory('${stashDir.path}${_}Version-$i'));
         }
       }
 
       sortedFolders.forEach(
         (entity) {
           final versionNumber =
-              int.parse(entity.path.split('/').last.replaceAll('Version-', ''));
+              int.parse(entity.path.split(_).last.replaceAll('Version-', ''));
 
-          final dataFile = File('${entity.path}/data.json');
+          final dataFile = File('${entity.path}${_}data.json');
           final timeStamp =
               jsonDecode(dataFile.readAsStringSync())['creationTime'];
           stdout.writeln('$versionNumber\t$timeStamp');

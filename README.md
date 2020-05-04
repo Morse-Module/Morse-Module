@@ -27,17 +27,17 @@ extensions:
 
 For more information regarding dash-files, please reference [the usage documentation](docs/USAGE.md).
 
-## Support
+## Application Support
 
-|                    | Linux (Debian-based) | MacOS              | Windows            |
-| ------------------ | -------------------- | ------------------ | ------------------ |
-| Visual Studio Code | :heavy_check_mark:   | :heavy_check_mark: | :heavy_check_mark: |
+| Application        | 🐧 Linux (Debian-based) | 🍏 MacOS | 🖼️ Windows |
+| ------------------ | ---------------------- | ------- | --------- |
+| Visual Studio Code | ✅                      | ✅       | ✅         |
 
-## Contributing
+## 🙋‍♀️🙋‍♂️ Contributing
 
-Contributions of application support, documentation upgrades, typo fixes (we all make them), and general features are all welcome. Please see [the contributing guidelines](docs/CONTRIBUTING.md) and [the code of conduct](docs/CODE_OF_CONDUCT.md) for more information.
+Contributions of application support, documentation upgrades, typo fixes (we all make them), and general features are all welcome! Please see [the contributing guidelines](docs/CONTRIBUTING.md) and [the code of conduct](docs/CODE_OF_CONDUCT.md) for more information.
 
 ## 😄 Contributors
 
-- Matthew Gleich ([@Matt-Gleich](https://github.com/Matt-Gleich))
-- Caleb Hagner ([@Cal-Hagner](https://github.com/Cal-Hagner))
+- Matthew Gleich, co-founder ([@Matt-Gleich](https://github.com/Matt-Gleich))
+- Caleb Hagner, co-founder ([@Cal-Hagner](https://github.com/Cal-Hagner))

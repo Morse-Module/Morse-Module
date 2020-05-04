@@ -44,6 +44,7 @@ abstract class Application {
 
   /// Create a dashfile for the application
   void dump({String destination, String url}) async {
+    step('Dumping', '📄');
     final dashFile = destination != null
         ? File('$destination/dashfile.yaml')
         : File('./dashfile.yaml');
@@ -55,6 +56,7 @@ abstract class Application {
     var filepath = '';
 
     if (url != null) {
+      step('Getting dot-file details from Github', '☁️', indentation: 1);
       final splitUrl = url.replaceFirst('https://', '').split('/');
       creator = splitUrl[1];
       repository = splitUrl[2];
@@ -64,16 +66,18 @@ abstract class Application {
         }
         filepath += '${splitUrl[i].replaceAll('%20', ' ')}';
       }
+      success('Got dot-file details from GitHub', indentation: 1);
     } else {
       stdout.writeln('What is your GitHub username?');
       creator = await stdin.readLineSync();
       stdout.writeln(
-          'What is the name of the GitHub repository you are storing the dotfile in?');
+          'What is the name of the GitHub repository you are storing the dot-file in?');
       repository = await stdin.readLineSync();
       stdout.writeln(
-          'What is the filepath of the dotfile, relative to the repository root?');
+          'What is the filepath of the dot-file, relative to the repository root?');
       filepath = await stdin.readLineSync();
     }
+    step('Writing to dash-file', '🖊️', indentation: 1);
     dashFile.writeAsStringSync('application: "$name"\n');
     dashFile.writeAsStringSync('creator: "$creator"\n', mode: FileMode.append);
     dashFile.writeAsStringSync('repository: "$repository"\n',
@@ -86,6 +90,8 @@ abstract class Application {
       extensions.split('\n').forEach((extensionName) => dashFile
           .writeAsStringSync('  - $extensionName\n', mode: FileMode.append));
     }
+    success('Wrote to ${dashFile.path}', indentation: 1);
+    success('Dumped to ${dashFile.path}');
   }
 
   /// Installs a dash file
@@ -98,27 +104,39 @@ abstract class Application {
     // Download dot file
     final dotFileContents = await http.get(fixedURL);
     if (dotFileContents.statusCode == 200) {
+      success('Downloaded dash file', indentation: 1);
       // Writing to file
+      step('Changing file', '⚙️', indentation: 1);
       final configFile = File(configFilePath[currentOS()]);
       configFile.createSync();
       configFile.writeAsStringSync(dotFileContents.body);
+      success('Changed file', indentation: 1);
 
       // Installing extensions
+      step('Installing new extensions (if any)', '🚀', indentation: 1);
+      var installedExtension = false;
       final installedExtensions = await convertAndRunCommand(listExtensions);
       for (final appExtensions in yamlFileContents['extensions']) {
         if (!installedExtensions.contains(appExtensions)) {
+          installedExtension = true;
+          step('Installing extension: $appExtensions', '📦', indentation: 2);
           await convertAndRunCommand(installExtension + ' $appExtensions');
+          success('Installed extension: $appExtensions', indentation: 2);
         }
       }
+      success(installedExtension ? 'Installed Extensions' : 'Installed',
+          indentation: 1);
     } else {
       error(
         'Failed to get file from $fixedURL\n  Make sure that the file path is correct in the repo',
       );
     }
+    success('Installed dash file');
   }
 
   /// Stash current file
   void stash() async {
+    step('Stashing current configuration', '📂');
     final stashDir = Directory('${homePath()}${_}.morse-mod${_}stash${_}$name');
     final stashDirPath = stashDir.path;
     if (!stashDir.existsSync()) {
@@ -165,6 +183,7 @@ abstract class Application {
     currentConfigFile.copySync(
       '${currentStashFolder.path}${_}${currentConfigFilePath}',
     );
+    success('Stashed current configuration');
   }
 
   /// Revert to a previous config
@@ -173,25 +192,39 @@ abstract class Application {
     final revertDir = stashNumber != ''
         ? Directory('${stashDir.path}${_}Version-$stashNumber')
         : Directory(stashDir.listSync().last.path);
+    step('Reverting configuration to ${revertDir.path}', '⏪');
     // Extensions
+    step('Reverting extensions', '⏪', indentation: 1);
     final listedExtensions = await convertAndRunCommand(listExtensions);
     final stashedExtensions =
         jsonDecode(File('${revertDir.path}${_}data.json').readAsStringSync())[
             'extensions'];
     final currentExtensions = listedExtensions.split('\n');
+    step('Uninstall extraneous extensions', '⏪', indentation: 2);
     currentExtensions.forEach(
-      (extensionName) async => {
-        if (!stashedExtensions.contains(extensionName))
-          {convertAndRunCommand('$uninstallExtension $extensionName')}
+      (extensionName) async {
+        if (!stashedExtensions.contains(extensionName)) {
+          step('Uninstalling $extensionName', '⏪', indentation: 3);
+          await convertAndRunCommand('$uninstallExtension $extensionName');
+          success('Uninstalled $extensionName', indentation: 3);
+        }
       },
     );
+    success('Uninstalled extraneous extensions', indentation: 2);
+    step('Install missing extensions', '⏪', indentation: 2);
     stashedExtensions.forEach(
-      (extensionName) async => {
-        if (!currentExtensions.contains(extensionName))
-          {convertAndRunCommand('$uninstallExtension $extensionName')}
+      (extensionName) async {
+        if (!currentExtensions.contains(extensionName)) {
+          step('Installing $extensionName', '⏪', indentation: 3);
+          await convertAndRunCommand('$installExtension $extensionName');
+          success('Installed $extensionName', indentation: 3);
+        }
       },
     );
+    success('Installed missing extensions', indentation: 2);
+    success('Reverted extensions', indentation: 1);
 
+    step('Reverting configuration file', '⏪', indentation: 1);
     // Config file
     final currentConfigFilePath = File(configFilePath[currentOS()]).path;
     final currentConfigFileName =
@@ -200,6 +233,8 @@ abstract class Application {
       '${revertDir.path}${_}${currentConfigFileName}',
     );
     stashedConfigFile.copySync(currentConfigFilePath);
+    success('Reverted configuration file', indentation: 1);
+    success('Reverted configuration to ${revertDir.path}');
   }
 
   /// List all the application's stashes' version and creation time

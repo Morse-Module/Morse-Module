@@ -83,6 +83,7 @@ class InstallCommand extends Command {
 
   @override
   void run() async {
+    step('Installing dashFile', '🚀');
     if (argResults['url'] == '') {
       error('Please provide url with --url');
     }
@@ -92,6 +93,7 @@ class InstallCommand extends Command {
         .split('/');
     urlChucks.removeAt(5);
     final fixedURL = urlChucks.join('/');
+    step('Downloading dash file', '🔽', indentation: 1);
     final contents = await http.get(fixedURL);
     if (contents.statusCode == 200) {
       final yamlContents = loadYaml(contents.body);

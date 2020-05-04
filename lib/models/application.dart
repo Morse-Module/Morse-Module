@@ -5,12 +5,12 @@ import 'dart:io';
 // 📦 Package imports:
 import 'package:process_run/which.dart';
 import 'package:http/http.dart' as http;
+import 'package:yaml/yaml.dart';
 
 // 🌎 Project imports:
 import 'package:morse_module/commands.dart';
 import 'package:morse_module/platforms.dart';
 import 'package:morse_module/statuses.dart';
-import 'package:yaml/yaml.dart';
 
 abstract class Application {
   // Application name

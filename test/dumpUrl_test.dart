@@ -1,11 +1,12 @@
-// 📦 Package imports:
+// 🎯 Dart imports:
 import 'dart:io';
 
-import 'package:morse_module/models/applicationFactory.dart';
+// 📦 Package imports:
 import 'package:test/test.dart';
+import 'package:yaml/yaml.dart';
 
 // 🌎 Project imports:
-import 'package:yaml/yaml.dart';
+import 'package:morse_module/models/applicationFactory.dart';
 
 void main() {
   test('Run dump with a url and test yaml output', () {

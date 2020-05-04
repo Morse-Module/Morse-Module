@@ -1,11 +1,9 @@
 // 📦 Package imports:
-import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
 
 // 🌎 Project imports:
-import 'package:morse_module/models/application.dart';
 import 'package:morse_module/models/applicationFactory.dart';
 import 'package:morse_module/statuses.dart';
 

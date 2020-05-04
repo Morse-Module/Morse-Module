@@ -100,7 +100,7 @@ class InstallCommand extends Command {
       final application =
           ApplicationFactory.getApplication(yamlContents['application']);
       if (!argResults['noStash']) {
-        application.stash();
+        await application.stash();
       }
       application.install(fixedURL, yamlContents);
     } else {

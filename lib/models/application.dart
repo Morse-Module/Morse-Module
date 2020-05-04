@@ -187,7 +187,7 @@ abstract class Application {
   }
 
   /// Revert to a previous config
-  void revert(String stashNumber) async {
+  Future<void> revert(String stashNumber) async {
     final stashDir = Directory('${homePath()}${_}.morse-mod${_}stash${_}$name');
     final revertDir = stashNumber != ''
         ? Directory('${stashDir.path}${_}Version-$stashNumber')
@@ -201,15 +201,13 @@ abstract class Application {
             'extensions'];
     final currentExtensions = listedExtensions.split('\n');
     step('Uninstall extraneous extensions', '⏪', indentation: 2);
-    currentExtensions.forEach(
-      (extensionName) async {
-        if (!stashedExtensions.contains(extensionName)) {
-          step('Uninstalling $extensionName', '⏪', indentation: 3);
-          await convertAndRunCommand('$uninstallExtension $extensionName');
-          success('Uninstalled $extensionName', indentation: 3);
-        }
-      },
-    );
+    for (var extensionName in currentExtensions) {
+      if (!stashedExtensions.contains(extensionName)) {
+        step('Uninstalling $extensionName', '⏪', indentation: 3);
+        await convertAndRunCommand('$uninstallExtension $extensionName');
+        success('Uninstalled $extensionName', indentation: 3);
+      }
+    }
     success('Uninstalled extraneous extensions', indentation: 2);
     step('Install missing extensions', '⏪', indentation: 2);
     stashedExtensions.forEach(
@@ -234,7 +232,7 @@ abstract class Application {
     );
     stashedConfigFile.copySync(currentConfigFilePath);
     success('Reverted configuration file', indentation: 1);
-    success('Reverted configuration to ${revertDir.path}');
+    success('Reverted configuration to ${stashedConfigFile.path}');
   }
 
   /// List all the application's stashes' version and creation time

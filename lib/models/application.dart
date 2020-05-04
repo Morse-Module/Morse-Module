@@ -99,16 +99,16 @@ abstract class Application {
 
     // Create/remove stash version folders
     Directory currentStashFolder;
-    if (folders.contains(Directory(stashDirPath + 'Version-100'))) {
+    if (Directory('$stashDirPath/Version-100').existsSync()) {
+      currentStashFolder = Directory('$stashDirPath/Version-100');
       for (var i = 1; i <= 100; i++) {
         if (i == 1) {
-          Directory('$stashDirPath/Version-1').deleteSync();
+          Directory('$stashDirPath/Version-1').deleteSync(recursive: true);
         } else {
           Directory('$stashDirPath/Version-$i')
               .renameSync('$stashDirPath/Version-${i - 1}');
         }
       }
-      currentStashFolder = Directory('$stashDirPath/Version-100');
     } else {
       for (var i = 1; i <= 100; i++) {
         final newStashDirectory = Directory('$stashDirPath/Version-$i');
@@ -141,7 +141,7 @@ abstract class Application {
   /// Revert to a previous config
   void revert({String stashNumber}) async {
     final stashDir = Directory('${homePath()}/.morse-mod/stash/$name');
-    final revertDir = stashNumber != null
+    final revertDir = stashNumber != ''
         ? Directory('${stashDir.path}/Version-$stashNumber')
         : Directory(stashDir.listSync().last.path);
     // Extensions

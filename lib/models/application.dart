@@ -107,7 +107,7 @@ abstract class Application {
       final installedExtensions = await convertAndRunCommand(listExtensions);
       for (final appExtensions in yamlFileContents['extensions']) {
         if (!installedExtensions.contains(appExtensions)) {
-          await convertAndRunCommand(installedExtensions + ' $appExtensions');
+          await convertAndRunCommand(installExtension + ' $appExtensions');
         }
       }
     } else {
@@ -175,8 +175,9 @@ abstract class Application {
         : Directory(stashDir.listSync().last.path);
     // Extensions
     final listedExtensions = await convertAndRunCommand(listExtensions);
-    final stashedExtensions = jsonDecode(
-        File('${revertDir.path}${_}data.json').readAsStringSync())['extensions'];
+    final stashedExtensions =
+        jsonDecode(File('${revertDir.path}${_}data.json').readAsStringSync())[
+            'extensions'];
     final currentExtensions = listedExtensions.split('\n');
     currentExtensions.forEach(
       (extensionName) async => {
@@ -187,13 +188,14 @@ abstract class Application {
     stashedExtensions.forEach(
       (extensionName) async => {
         if (!currentExtensions.contains(extensionName))
-          {convertAndRunCommand('$installExtension $extensionName')}
+          {convertAndRunCommand('$uninstallExtension $extensionName')}
       },
     );
 
     // Config file
     final currentConfigFilePath = File(configFilePath[currentOS()]).path;
-    final currentConfigFileName = currentConfigFilePath.split(Platform.pathSeparator).last;
+    final currentConfigFileName =
+        currentConfigFilePath.split(Platform.pathSeparator).last;
     final stashedConfigFile = File(
       '${revertDir.path}${_}${currentConfigFileName}',
     );

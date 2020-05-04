@@ -2,7 +2,7 @@
 
 ![Dart CI](https://github.com/Morse-Module/Morse-Module/workflows/Dart%20CI/badge.svg)
 
-🚀 Platform to quickly share application config files and try them out risk free. Similar to homebrew cask but for configs.
+🚀 Platform to quickly share application config files and try them out risk free
 
 ## Installation steps
 1. Download the binary release from GitHub.

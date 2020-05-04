@@ -33,6 +33,10 @@ For more information regarding dash-files, please reference [the usage documenta
 | ------------------ | ---------------------- | ------- | --------- |
 | Visual Studio Code | ✅                      | ✅       | ✅         |
 
+## Caveats
+
+Although Morse-Module does facilitate the easy installation and uninstallation of Visual Studio Code extensions, it does not facilitate the supporting factors those extensions may need - language installations, API Keys, account credentials, or any other necessaries.
+
 ## 🙋‍♀️🙋‍♂️ Contributing
 
 Contributions of application support, documentation upgrades, typo fixes (we all make them), and general features are all welcome! Please see [the contributing guidelines](docs/CONTRIBUTING.md) and [the code of conduct](docs/CODE_OF_CONDUCT.md) for more information.

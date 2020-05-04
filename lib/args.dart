@@ -83,18 +83,27 @@ class InstallCommand extends Command {
 
   @override
   void run() async {
-    final application = ApplicationFactory.getApplication('vscode');
-    application.stash();
-    // final fixedURL = argResults['url']
-    //     .toString()
-    //     .replaceFirst('github.com', 'raw.githubusercontent.com')
-    //     .replaceAll('/blob/', '/');
-    // final contents = await http.get(fixedURL);
-    // if (contents.statusCode == 200) {
-    //   final yamlContents = loadYaml(contents.body);
-    // } else {
-    //   error('Failed to download dash-file from ${argResults['url']}');
-    // }
+    if (argResults['url'] == '') {
+      error('Please provide url with --url');
+    }
+    final urlChucks = argResults['url']
+        .toString()
+        .replaceFirst('github.com', 'raw.githubusercontent.com')
+        .split('/');
+    urlChucks.removeAt(5);
+    final fixedURL = urlChucks.join('/');
+    final contents = await http.get(fixedURL);
+    if (contents.statusCode == 200) {
+      final yamlContents = loadYaml(contents.body);
+      final application =
+          ApplicationFactory.getApplication(yamlContents['application']);
+      if (!argResults['noStash']) {
+        application.stash();
+      }
+      application.install(fixedURL, yamlContents);
+    } else {
+      error('Failed to download dash-file from ${argResults['url']}');
+    }
   }
 }
 
@@ -129,7 +138,7 @@ class RevertCommand extends Command {
   @override
   void run() {
     final app = ApplicationFactory.getApplication(argResults['application']);
-    app.revert(stashNumber: argResults['version']);
+    app.revert(argResults['version']);
   }
 }
 

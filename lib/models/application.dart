@@ -88,15 +88,42 @@ abstract class Application {
     }
   }
 
-  /// Stash current config
+  /// Installs a dash file
+  void install(String yamlFileURL, YamlMap yamlFileContents) async {
+    final fixedURL = yamlFileURL.split('/').getRange(0, 6).join('/') +
+        '/' +
+        yamlFileContents['filepath'];
+    print(fixedURL);
+
+    // Download dot file
+    final dotFileContents = await http.get(fixedURL);
+    if (dotFileContents.statusCode == 200) {
+      // Writing to file
+      final configFile = File(configFilePath[currentOS()]);
+      configFile.createSync();
+      configFile.writeAsStringSync(dotFileContents.body);
+
+      // Installing extensions
+      final installedExtensions = await convertAndRunCommand(listExtensions);
+      for (final appExtensions in yamlFileContents['extensions']) {
+        if (!installedExtensions.contains(appExtensions)) {
+          await convertAndRunCommand(installedExtensions + ' $appExtensions');
+        }
+      }
+    } else {
+      error(
+        'Failed to get file from $fixedURL\n  Make sure that the file path is correct in the repo',
+      );
+    }
+  }
+
+  /// Stash current file
   void stash() async {
     final stashDir = Directory('${homePath()}${_}.morse-mod${_}stash${_}$name');
     final stashDirPath = stashDir.path;
     if (!stashDir.existsSync()) {
       stashDir.createSync(recursive: true);
     }
-
-    final folders = stashDir.listSync().whereType<Directory>();
 
     // Create/remove stash version folders
     Directory currentStashFolder;
@@ -141,7 +168,7 @@ abstract class Application {
   }
 
   /// Revert to a previous config
-  void revert({String stashNumber}) async {
+  void revert(String stashNumber) async {
     final stashDir = Directory('${homePath()}${_}.morse-mod${_}stash${_}$name');
     final revertDir = stashNumber != ''
         ? Directory('${stashDir.path}${_}Version-$stashNumber')

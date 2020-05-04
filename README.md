@@ -6,8 +6,8 @@
 
 ## Installation steps
 1. Download the binary release from GitHub.
-2a. Mac or Linux: Add `PATH=$PATH:path/to/bin` to `.zsh` or `.bashrc`.
-2b. Windows: 
+2. a. Mac or Linux: Add `PATH=$PATH:path/to/bin` to `.zsh` or `.bashrc`.
+2. b. Windows: Add `path/to/bin` to your PATH environment variable.
 
 ## ❓ How it works
 

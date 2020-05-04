@@ -30,7 +30,7 @@ void success(String message, {int indentation = 0}) {
 String _generateIndentation(int indentation) {
   final indents = <String>[];
   for (var i = 0; i < indentation; i++) {
-    indents.add('  ');
+    indents.add('    ');
   }
   return indents.join();
 }

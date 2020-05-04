@@ -99,7 +99,6 @@ abstract class Application {
     final fixedURL = yamlFileURL.split('/').getRange(0, 6).join('/') +
         '/' +
         yamlFileContents['filepath'];
-    print(fixedURL);
 
     // Download dot file
     final dotFileContents = await http.get(fixedURL);
@@ -113,18 +112,40 @@ abstract class Application {
       success('Changed file', indentation: 1);
 
       // Installing extensions
-      step('Installing new extensions (if any)', '🚀', indentation: 1);
-      var installedExtension = false;
+      step('Installing new extensions', '🚀', indentation: 1);
+      var didInstalledExtension = false;
       final installedExtensions = await convertAndRunCommand(listExtensions);
       for (final appExtensions in yamlFileContents['extensions']) {
         if (!installedExtensions.contains(appExtensions)) {
-          installedExtension = true;
+          didInstalledExtension = true;
           step('Installing extension: $appExtensions', '📦', indentation: 2);
           await convertAndRunCommand(installExtension + ' $appExtensions');
           success('Installed extension: $appExtensions', indentation: 2);
         }
       }
-      success(installedExtension ? 'Installed Extensions' : 'Installed',
+      success(
+          didInstalledExtension
+              ? 'Installed Extensions'
+              : 'No extensions installed',
+          indentation: 1);
+      step('Uninstalling old extensions', '🧹', indentation: 1);
+      var didUninstallExtension = false;
+      for (final installedExtension in installedExtensions.split('\n')) {
+        if (!yamlFileContents['extensions'].contains(installedExtension)) {
+          step(
+            'Uninstalling extension: $installedExtension',
+            '👋',
+            indentation: 2,
+          );
+          await convertAndRunCommand(
+              uninstallExtension + ' $installedExtension');
+          success('Uninstalled extension: $installedExtension', indentation: 2);
+        }
+      }
+      success(
+          didUninstallExtension
+              ? 'Uninstalled Extensions'
+              : 'No extensions uninstalled',
           indentation: 1);
     } else {
       error(
@@ -210,15 +231,13 @@ abstract class Application {
     }
     success('Uninstalled extraneous extensions', indentation: 2);
     step('Install missing extensions', '⏪', indentation: 2);
-    stashedExtensions.forEach(
-      (extensionName) async {
-        if (!currentExtensions.contains(extensionName)) {
-          step('Installing $extensionName', '⏪', indentation: 3);
-          await convertAndRunCommand('$installExtension $extensionName');
-          success('Installed $extensionName', indentation: 3);
-        }
-      },
-    );
+    for (final extensionName in stashedExtensions) {
+      if (!currentExtensions.contains(extensionName)) {
+        step('Installing $extensionName', '⏪', indentation: 3);
+        await convertAndRunCommand('$installExtension $extensionName');
+        success('Installed $extensionName', indentation: 3);
+      }
+    }
     success('Installed missing extensions', indentation: 2);
     success('Reverted extensions', indentation: 1);
 

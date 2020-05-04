@@ -71,6 +71,7 @@ class InstallCommand extends Command {
     argParser.addOption(
       'url',
       help: 'The url for the dash-file on GitHub',
+      defaultsTo: '',
     );
     argParser.addFlag(
       'noStash',
@@ -82,16 +83,18 @@ class InstallCommand extends Command {
 
   @override
   void run() async {
-    final fixedURL = argResults['url']
-        .toString()
-        .replaceFirst('github.com', 'raw.githubusercontent.com')
-        .replaceAll('/blob/', '/');
-    final contents = await http.get(fixedURL);
-    if (contents.statusCode == 200) {
-      final yamlContents = loadYaml(contents.body);
-    } else {
-      error('Failed to download dash-file from ${argResults['url']}');
-    }
+    final application = ApplicationFactory.getApplication('vscode');
+    application.stash();
+    // final fixedURL = argResults['url']
+    //     .toString()
+    //     .replaceFirst('github.com', 'raw.githubusercontent.com')
+    //     .replaceAll('/blob/', '/');
+    // final contents = await http.get(fixedURL);
+    // if (contents.statusCode == 200) {
+    //   final yamlContents = loadYaml(contents.body);
+    // } else {
+    //   error('Failed to download dash-file from ${argResults['url']}');
+    // }
   }
 }
 
@@ -105,7 +108,7 @@ class RevertCommand extends Command {
   RevertCommand() {
     argParser.addOption(
       'application',
-      abbr: '-a',
+      abbr: 'a',
       help: 'The application to revert to a previous configuration',
       allowed: [
         'vscode',
@@ -113,6 +116,7 @@ class RevertCommand extends Command {
       allowedHelp: {
         'vscode': 'Visual Studio Code',
       },
+      defaultsTo: '',
     );
     argParser.addOption(
       'version',

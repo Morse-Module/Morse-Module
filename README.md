@@ -1,3 +1,7 @@
+# ⚠️ THIS APPLICATION DOES NOT CURRENTLY WORK ⚠️
+
+We plan on rewriting this application in go in about a month or so.
+
 # Morse-Module
 
 ![Dart CI](https://github.com/Morse-Module/Morse-Module/workflows/Dart%20CI/badge.svg)
